@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} show{% endblock %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header">
+            commentaires ({{ comments | length }})
+        </div>
+        <ul class="list-group list-group-flush">
+            {% if expression is not iterable %}
+                {% for comment in comments %}
+                    <li class="list-group-item">{{ comment }}</li>
+                {% endfor %}
+            {% else %}
+                <span>{{ expression }} is not iterable</span>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}
