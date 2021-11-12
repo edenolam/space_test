@@ -17,7 +17,12 @@ class MarkdownHelper
     private LoggerInterface $logger;
     private bool $isDebug;
 
-    public function __construct(AdapterInterface $cache, MarkdownInterface $markdown, LoggerInterface $markdownLogger, bool $isDebug)
+    public function __construct(
+        AdapterInterface $cache,
+        MarkdownInterface $markdown,
+        LoggerInterface $markdownLogger,
+        bool $isDebug
+    )
     {
         $this->cache = $cache;
         $this->markdown = $markdown;

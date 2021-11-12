@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,14 +14,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ArticleController extends AbstractController
 {
-//    /**
-//     * Currently unused: just showing a controller with a constructor!
-//     */
-//    private $isDebug;
-//    public function __construct(bool $isDebug)
-//    {
-//        $this->isDebug = $isDebug;
-//    }
+    /**
+     * Currently unused: just showing a controller with a constructor!
+     */
+
     /**
      * @param ArticleRepository $repository
      * @return Response
@@ -28,35 +25,22 @@ class ArticleController extends AbstractController
      */
     public function homepage(ArticleRepository $repository): Response
     {
-        $articles = $repository->findAll();
-        return $this->render('article/home.html.twig', [
+        $articles = $repository->findAllPublishedOrderedByNewest();
+
+        return $this->render('article/homepage.html.twig', [
             'articles' => $articles
         ]);
     }
 
     /**
-     * @param $slug
-     * @param EntityManagerInterface $em
+     * @param Article $article
      * @return Response
-     * @Route ("/news/{slug}", name="article_show"))
+     * @Route ("/article/{slug}", name="article_show"))
      */
-    public function show($slug, EntityManagerInterface $em): Response
+    public function show(Article $article): Response
     {
-        $repository = $em->getRepository(Article::class);
-        $article = $repository->findOneBy(['slug' => $slug]);
-        if (!$article){
-            throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
-        }
-
-        $comments = [
-            'I ate a normal rock once. It did NOT taste like bacon!',
-            'Woohoo! I\'m going on an all-asteroid diet!',
-            'I like bacon too! Buy some from my site! bakinsomebacon.com',
-        ];
-
         return $this->render('article/show.html.twig', [
-            'article' => $article,
-            'comments' => $comments
+            'article' => $article
         ]);
 
     }
@@ -64,10 +48,12 @@ class ArticleController extends AbstractController
     /**
      * @Route ("/news/{slug}/heart", name="article_toggle_heart", methods={"POST"}))
      */
-    public function toggleArticleHeart($slug, LoggerInterface $logger): JsonResponse
+    public function toggleArticleHeart(Article $article, LoggerInterface $logger, EntityManagerInterface $em): JsonResponse
     {
-        $logger->info('post');
-        return $this->json(['hearts' => rand(5, 100), 'post' => rand(5, 654654)]);
+        $article->incrementHeartCount();
+        $em->flush();
+        $logger->info('Article is being hearted!');
+        return $this->json(['hearts' => $article->getHeartCount()]);
     }
 
 }

@@ -20,16 +20,23 @@
 
                 {% for article in articles %}
                     <div class="article-container my-1">
-                        <a href="{{ path('article_show', {slug: article.slug}) }}">
-                            <img class="article-img" src="{{ asset('images/asteroid.jpeg') }}">
-                            <div class="article-title d-inline-block pl-3 align-middle">
-                                <span>{{ article.title }}</span>
-                                <br>
-                                <span class="align-left article-details"><img class="article-author-img rounded-circle"
-                                                                              src="{{ asset('images/alien-profile.png') }}"> Mike Ferengi </span>
-                                <span class="pl-5 article-details float-right">{{ article.publishedAt | date }}</span>
-                            </div>
-                        </a>
+                        <img class="article-img" src="{{ asset(article.imagePath) }}">
+                        <div class="article-title d-inline-block pl-3 align-middle">
+                            <a href="{{ path('article_show', {slug: article.slug}) }}">
+                                <small class="badge-info rounded p-1">{{ article.id }} {{ article.slug }}</small>
+                            </a>
+                            <br>
+                            <span class="text-black-70">{{ article.title }}</span>
+                            <br>
+                            <small>{{ article.nonDeletedComments|length }} {{ (article.nonDeletedComments|length > 1) ? 'commentaires' : 'commentaire' }}</small>
+                            <br>
+                            <span class="align-left article-details">
+                                    <img class="article-author-img rounded-circle"
+                                         src="{{ asset('images/alien-profile.png') }}" alt="">
+                                    {{ article.author }}
+                                </span>
+                            <span class="pl-5 article-details float-right">{{ article.publishedAt | ago }}</span>
+                        </div>
                     </div>
                 {% endfor %}
 
