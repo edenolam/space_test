@@ -1,0 +1,53 @@
+{% extends 'content_base.html.twig' %}
+
+{% block title %}Gérer les commentaires!{% endblock %}
+
+{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
+
+{% block content_body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Gérer les commentaires</h1>
+            <form action="">
+                <div class="input-group mb-3">
+                        <input type="text" name="q" class="form-control" placeholder="recherche..">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Author</th>
+                    <th>Comment</th>
+                    <th>Content</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for comment in comments %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('article_show', {'slug': comment.article.slug}) }}">
+                                {{ comment.article.slug }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ comment.authorName }}
+                        </td>
+                        <td class="w-25">
+                            {{ comment.content|truncate }}
+                        </td>
+                        <td>
+                            {{ comment.createdAt|ago }}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
