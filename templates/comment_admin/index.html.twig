@@ -10,7 +10,7 @@
             <h1>Gérer les commentaires</h1>
             <form action="">
                 <div class="input-group mb-3">
-                        <input type="text" name="q" class="form-control" placeholder="recherche..">
+                        <input type="text" value="{{ app.request.query.get('q') }}" name="q" class="form-control" placeholder="recherche..">
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-outline-secondary">
                             <span class="fa fa-search"></span>
@@ -24,7 +24,7 @@
                     <th>Article</th>
                     <th>Author</th>
                     <th>Comment</th>
-                    <th>Content</th>
+                    <th>Created</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,7 +32,7 @@
                     <tr>
                         <td>
                             <a href="{{ path('article_show', {'slug': comment.article.slug}) }}">
-                                {{ comment.article.slug }}
+                                {{ comment.article.title }}
                             </a>
                         </td>
                         <td>
@@ -43,6 +43,12 @@
                         </td>
                         <td>
                             {{ comment.createdAt|ago }}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            No comments found
                         </td>
                     </tr>
                 {% endfor %}

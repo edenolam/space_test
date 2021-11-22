@@ -27,10 +27,17 @@ class CommentRepository extends ServiceEntityRepository
         // nullable string argument called $term:
     // return array
     {
-        $qb = $this->createQueryBuilder('c');
+        $qb = $this->createQueryBuilder('c')
+            ->innerJoin('c.article', 'a')
+            // pour le probleme n+1 on ajoute addSelect('a')
+            ->addSelect('a')
+
+        ;
+        //When we say c.article, we're actually referencing the article property on Comment
+        // ce qui nous permet de maintenant chercher le titre de l'article: avec : a.title LIKE :term
 
         if ($term){
-            $qb->andWhere('c.content LIKE :term OR c.authorName LIKE :term')
+            $qb->andWhere('c.content LIKE :term OR c.authorName LIKE :term OR a.title LIKE :term')
                 ->setParameter('term', '%' . $term . '%')
                 ;
         }
