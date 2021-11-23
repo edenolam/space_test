@@ -25,7 +25,7 @@
                     <th>
                         <form action="">
                             <div class="input-group mb-3">
-                                <input type="text" value="{{ app.request.query.get('evlt') }}" name="evlt"
+                                <input type="text" value="{{ app.request.query.get('evaluate') }}" name="evaluate"
                                        class="form-control"
                                        placeholder="recherche..">
                                 <div class="input-group-append">
@@ -41,7 +41,7 @@
                     <th>
                         <form action="">
                             <div class="input-group mb-3">
-                                <input type="text" value="{{ app.request.query.get('evlr') }}" name="evlr"
+                                <input type="text" value="{{ app.request.query.get('evaluator') }}" name="evaluator"
                                        class="form-control"
                                        placeholder="recherche..">
                                 <div class="input-group-append">
@@ -71,7 +71,7 @@
                         </tr>
                     {% endfor %}
 
-                {% elseif app.request.query.get('evlr') %}
+                {% elseif app.request.query.get('evaluator') %}
 
                     {% for evaluator in evaluators %}
                         <tr>
@@ -84,15 +84,15 @@
                         </tr>
                     {% endfor %}
 
-                {% elseif app.request.query.get('evlt') %}
+                {% elseif app.request.query.get('evaluate') %}
 
-                    {% for evaluat in evaluates %}
+                    {% for evaluate in evaluates %}
                         <tr>
                             <td>
-                                {{ evaluat.evaluate }}
+                                {{ evaluate.evaluate }}
                             </td>
                             <td>
-                                {{ evaluat.evaluator }}
+                                {{ evaluate.evaluator }}
                             </td>
                         </tr>
                     {% endfor %}

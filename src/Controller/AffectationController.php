@@ -16,12 +16,12 @@ class AffectationController extends AbstractController
     public function index(AffectationRepository $repository, Request $request): Response
     {
         $q = $request->query->get('q');
-        $evlr = $request->query->get('evlr');
-        $evlt = $request->query->get('evlt');
+        $evaluator = $request->query->get('evaluator');
+        $evaluate = $request->query->get('evaluate');
         return $this->render('affectation/index.html.twig', [
             'affectations' => $repository->findAllWithSearch($q),
-            'evaluators' => $repository->findByEvaluator($evlr),
-            'evaluates' => $repository->findByEvaluate($evlt),
+            'evaluators' => $repository->findByEvaluator($evaluator),
+            'evaluates' => $repository->findByEvaluate($evaluate),
         ]);
     }
 }
