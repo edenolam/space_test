@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,12 +20,21 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
+
+
+    public static function createNonDeletedCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isDeleted', false))
+            ->orderBy(['createdAt' => 'DESC'])
+            ;
+    }
+
     /**
      * @param string|null $term
-     * nullable string argument called $term:
-     * @return Comment[]
+     * @return QueryBuilder
      */
-    public function findAllWithSearch(?string $term): array
+    public function getWithSearchQueryBuilder(?string $term): QueryBuilder
         // nullable string argument called $term:
     // return array
     {
@@ -41,10 +52,8 @@ class CommentRepository extends ServiceEntityRepository
                 ->setParameter('term', '%' . $term . '%')
                 ;
         }
-        return $qb
-            ->orderBy('c.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult()
+         return $qb
+             ->orderBy('c.createdAt', 'DESC')
             ;
     }
 
