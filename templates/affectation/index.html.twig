@@ -1,0 +1,124 @@
+{% extends 'content_base.html.twig' %}
+
+{% block title %}Gérer les affectations{% endblock %}
+
+{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
+
+{% block content_body %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Gérer les affectations</h1>
+            <form action="">
+                <div class="input-group mb-3">
+                    <input type="text" value="{{ app.request.query.get('q') }}" name="q" class="form-control"
+                           placeholder="recherche..">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        <form action="">
+                            <div class="input-group mb-3">
+                                <input type="text" value="{{ app.request.query.get('evlt') }}" name="evlt"
+                                       class="form-control"
+                                       placeholder="recherche..">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        Nom d'evalués
+                    </th>
+                    <th>
+                        <form action="">
+                            <div class="input-group mb-3">
+                                <input type="text" value="{{ app.request.query.get('evlr') }}" name="evlr"
+                                       class="form-control"
+                                       placeholder="recherche..">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-outline-secondary">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        Nom d'evaluateur
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% if app.request.query.get('q') %}
+
+                    {% for affectation in affectations %}
+                        <tr>
+                            <td>
+                                {{ affectation.evaluate }}
+                            </td>
+                            <td>
+                                {{ affectation.evaluator }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                {% elseif app.request.query.get('evlr') %}
+
+                    {% for evaluator in evaluators %}
+                        <tr>
+                            <td>
+                                {{ evaluator.evaluate }}
+                            </td>
+                            <td>
+                                {{ evaluator.evaluator }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                {% elseif app.request.query.get('evlt') %}
+
+                    {% for evaluat in evaluates %}
+                        <tr>
+                            <td>
+                                {{ evaluat.evaluate }}
+                            </td>
+                            <td>
+                                {{ evaluat.evaluator }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                {% else %}
+
+                    {% for affectation in affectations %}
+                        <tr>
+                            <td>
+                                {{ affectation.evaluate }}
+                            </td>
+                            <td>
+                                {{ affectation.evaluator }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                No affectations found
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
