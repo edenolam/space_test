@@ -4,9 +4,12 @@ namespace App\DataFixtures;
 
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Entity\Tag;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 
-class ArticleFixtures extends BaseFixture
+class ArticleFixtures extends BaseFixture implements DependentFixtureInterface
 {
     private static array $articleTitles = [
         'Why Asteroids Taste Like Bacon',
@@ -51,7 +54,23 @@ améliorations dans le système de typage, la gestion d'erreur, et de cohérence
             if ($this->faker->boolean(70)) {
                 $article->setPublishedAt($this->faker->dateTimeBetween('-100 days', '-1 days'));
             }
+
+
+            $tags = $this->getRandomReferences(Tag::class, $this->faker->numberBetween(0, 5));
+            foreach ($tags as $tag) {
+                $article->addTag($tag);
+            }
         });
         $manager->flush();
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getDependencies(): array
+    {
+        return [
+            TagFixtures::class
+        ];
     }
 }
