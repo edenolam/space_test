@@ -1,0 +1,37 @@
+{% extends 'content_base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content_class %}
+    <div class="jumbotron">
+        <h1 class="display-4">affectations</h1>
+        {% if affectations|length > 0 %}
+        <p class="lead">There are {{ affectations|length }} affectations</p>
+        <hr class="my-4">
+            {% for affectation in affectations %}
+
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        Affectation
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">{{ affectation.id }}</li>
+                        <li class="list-group-item">{{ affectation.evaluate }}</li>
+                        <li class="list-group-item">{{ affectation.evaluator }}</li>
+                    </ul>
+                </div>
+                {% if previous >= 0 %}
+                    <a href="{{ path('affectation_show', { id: affectation.id, offset: previous }) }}">Previous</a>
+                {% endif %}
+                {% if next < affectations|length %}
+                    <a href="{{ path('affectation_show', { id: affectation.id, offset: next }) }}">Next</a>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <div>pas d'affectations</div>
+        {% endif %}
+    </div>
+{% endblock %}
+

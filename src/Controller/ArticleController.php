@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Query\QueryException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +23,7 @@ class ArticleController extends AbstractController
      * @param ArticleRepository $repository
      * @return Response
      * @Route ("/", name="app_homepage")
+     * @throws QueryException
      */
     public function homepage(ArticleRepository $repository): Response
     {

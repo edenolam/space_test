@@ -7,7 +7,7 @@
 {% block content_body %}
     <div class="row">
         <div class="col-sm-12">
-            <h1>Gérer les affectations</h1>
+            <h1>Gérer les affectations  {{ affectations|length }}</h1>
             <form action="">
                 <div class="input-group mb-3">
                     <input type="text" value="{{ app.request.query.get('q') }}" name="q" class="form-control"
@@ -102,7 +102,7 @@
                     {% for affectation in affectations %}
                         <tr>
                             <td>
-                                {{ affectation.evaluate }}
+                                <a href="{{ path('affectation_show', { id: affectation.id}) }}">{{ affectation.evaluate }}</a>
                             </td>
                             <td>
                                 {{ affectation.evaluator }}
