@@ -10,8 +10,8 @@ use Faker\Factory;
 abstract class BaseFixture extends Fixture
 {
     private ObjectManager $manager;
-    private array $referencesIndex = [];
     protected $faker;
+    private array $referencesIndex = [];
 
     abstract protected function loadData(ObjectManager $manager);
 
